@@ -4,11 +4,13 @@ require 'rack/mobile-detect'
 module MobileFu
   autoload :Helper, 'mobile-fu/helper'
 
-  class Railtie < Rails::Railtie
-    initializer "mobile-fu.configure" do |app|
-      app.config.middleware.use Rack::MobileDetect
+  if Rails.version =~ /^3\./
+    class Railtie < Rails::Railtie
+      initializer "mobile-fu.configure" do |app|
+        app.config.middleware.use Rack::MobileDetect
+      end
+      Mime::Type.register_alias "text/html", :mobile
     end
-    Mime::Type.register_alias "text/html", :mobile
   end
 end
 
