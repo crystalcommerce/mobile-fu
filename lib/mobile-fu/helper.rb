@@ -1,5 +1,7 @@
 module MobileFu
   module Helper
+    include ActionView::Helpers::AssetTagHelper
+
     def js_enabled_mobile_device?
       is_device?('iphone') || is_device?('ipod') || is_device?('ipad') || is_device?('mobileexplorer') || is_device?('android')
     end
@@ -13,7 +15,7 @@ module MobileFu
 
         device_names.compact.each do |device_name|
           possible_source = "#{source.to_s.gsub '.css', ''}_#{device_name}.css"
-          path = File.join config.stylesheets_dir, possible_source
+          path = stylesheet_path(possible_source)
           mobilized_sources << possible_source if File.exist?(path)
         end
       end
